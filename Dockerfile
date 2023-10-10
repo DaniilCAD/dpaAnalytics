@@ -24,7 +24,7 @@ ARG PY_VER=3.9-slim-bookworm
 ARG BUILDPLATFORM=${BUILDPLATFORM:-amd64}
 FROM --platform=${BUILDPLATFORM} node:16-bookworm-slim AS superset-node
 
-ARG NPM_BUILD_CMD="build"
+ARG NPM_BUILD_CMD="build --loglevel verbose"
 
 RUN apt-get update -qq \
     && apt-get install -yqq --no-install-recommends \
@@ -43,8 +43,11 @@ RUN --mount=type=bind,target=./package.json,src=./superset-frontend/package.json
     --mount=type=bind,target=./package-lock.json,src=./superset-frontend/package-lock.json \
     npm ci
 
+
 COPY ./superset-frontend ./
+
 # This seems to be the most expensive step
+RUN npm install
 RUN npm run ${BUILD_CMD}
 
 ######################################################################

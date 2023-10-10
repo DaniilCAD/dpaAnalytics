@@ -27,10 +27,12 @@
       "@superset-ui/switchboard": ["./packages/superset-ui-switchboard/src"]
     },
     "types": [
-      "@emotion/react/types/css-prop",
-      "jest",
-      "@testing-library/jest-dom",
-      "@types/node"
+      
+      "@types/react",
+  "@emotion/react/types/css-prop",
+  "jest",
+  "@testing-library/jest-dom",
+  "@types/node"
     ],
 
     /* Emit */
