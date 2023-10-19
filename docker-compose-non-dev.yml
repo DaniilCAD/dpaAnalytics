@@ -91,11 +91,22 @@ services:
     volumes: *superset-volumes
     healthcheck:
       disable: true
-
 volumes:
   superset_home:
-    external: false
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/lib/docker/volumes/superset_superset_home/_data
   db_home:
-    external: false
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/lib/docker/volumes/superset_db_home/_data
   redis:
-    external: false
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/lib/docker/volumes/superset_redis/_data

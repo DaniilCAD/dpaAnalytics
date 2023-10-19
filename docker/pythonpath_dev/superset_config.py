@@ -25,6 +25,9 @@ import os
 
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
+from flask_appbuilder.security.manager import AUTH_OID
+from keycloak_auth_setting import OIDCSecurityManager
+import json
 
 logger = logging.getLogger()
 
@@ -88,8 +91,21 @@ class CeleryConfig:
             "schedule": crontab(minute=10, hour=0),
         },
     }
-
-
+#////////////////////////-------KEYCLOAK----\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+curr = os.path.abspath(os.getcwd())
+AUTH_TYPE = AUTH_OID
+OIDC_CLIENT_SECRETS= curr + '/docker/pythonpath_dev/client_secret.json'
+OIDC_ID_TOKEN_COOKIE_SECURE = False
+OIDC_REQUIRE_VERIFIED_EMAIL = False
+OIDC_CLOCK_SKEW = 560
+OIDC_OPENID_REALM = 'Superset'
+OIDC_VALID_ISSUERS = 'http://158.160.81.201:8082/realms/Superset'
+AUTH_USER_REGISTRATION = True
+AUTH_USER_REGISTRATION_ROLE = 'Public'
+CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
+OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
+OIDC_TOKEN_TYPE_HINT = 'access_token'
+#----------------------------------------------------------------------------
 CELERY_CONFIG = CeleryConfig
 APP_ICON = "/static/assets/images/custom_logo.png"
 FEATURE_FLAGS = {"ALERT_REPORTS": True}
