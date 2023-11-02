@@ -23,3 +23,4 @@
 !superset_config_local.example
 !keycloak_auth_setting.py
 !client_secret.json
+!requirements-local.txt
