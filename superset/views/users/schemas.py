@@ -22,6 +22,8 @@ class UserResponseSchema(Schema):
     id = Integer()
     username = String()
     email = String()
+    main_inn = Integer()
+    head_inn = Integer()
     first_name = String()
     last_name = String()
     is_active = Boolean()
