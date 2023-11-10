@@ -84,7 +84,7 @@ if (bootstrapData.user?.isActive) {
   document.addEventListener('visibilitychange', () => {
     // we only care about the tab becoming visible, not vice versa
     if (document.visibilityState !== 'visible') return;
-
+    console.log(bootstrapData.user);
     getMe().catch(() => {
       // ignore error, SupersetClient will redirect to login on a 401
     });

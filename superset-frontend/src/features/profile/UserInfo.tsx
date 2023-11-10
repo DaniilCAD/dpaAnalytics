@@ -33,6 +33,7 @@ const StyledContainer = styled.div`
 `;
 
 export default function UserInfo({ user }: UserInfoProps) {
+  console.log(user);
   return (
     <StyledContainer>
       <a href="https://en.gravatar.com/">
@@ -75,6 +76,12 @@ export default function UserInfo({ user }: UserInfoProps) {
           &nbsp;
           <span className="text-muted">{t('id')}:</span>&nbsp;
           <span className="user-id">{user?.userId}</span>
+        </p>
+        <p>
+          <i className="fa fa-envelope-o" /> ИНН: {user?.main_inn}
+        </p>
+        <p>
+          <i className="fa fa-envelope-o" /> ИНН организации: {user?.head_inn}
         </p>
       </div>
     </StyledContainer>

@@ -46,6 +46,8 @@ const mockUser: UserWithPermissionsAndRoles = {
   userId: 1,
   username: 'admin',
   isAnonymous: false,
+  head_inn: '11111',
+  main_inn: '11111',
 };
 
 const mockUserWithDatasetWrite: UserWithPermissionsAndRoles = {
@@ -59,6 +61,8 @@ const mockUserWithDatasetWrite: UserWithPermissionsAndRoles = {
   userId: 1,
   username: 'admin',
   isAnonymous: false,
+  head_inn: '11111',
+  main_inn: '11111',
 };
 
 // We don't need the actual implementation for the tests

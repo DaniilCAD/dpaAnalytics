@@ -41,6 +41,8 @@ const ownerUser: UserWithPermissionsAndRoles = {
   username: 'owner',
   permissions: {},
   roles: { Alpha: [['can_write', 'Dashboard']] },
+  head_inn: '11111',
+  main_inn: '11111',
 };
 
 const adminUser: UserWithPermissionsAndRoles = {

@@ -405,6 +405,8 @@ test('getFilterValues', () => {
     userId,
     isActive: true,
     isAnonymous: false,
+    main_inn: '11111',
+    head_inn: '11111',
   };
   const testCases: [
     TableTab,

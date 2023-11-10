@@ -38,6 +38,8 @@ export type User = {
   lastName: string;
   userId?: number; // optional because guest user doesn't have a user id
   username: string;
+  main_inn: string;
+  head_inn: string;
 };
 
 export type UserRoles = Record<string, [string, string][]>;

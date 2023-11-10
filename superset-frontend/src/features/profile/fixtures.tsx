@@ -44,5 +44,7 @@ export const user: UserWithPermissionsAndRoles = {
     datasource_access: ['table1', 'table2'],
     database_access: ['db1', 'db2', 'db3'],
   },
+  head_inn: '11111',
+  main_inn: '11111',
 };
 export const userNoPerms = { ...user, permissions: {} };

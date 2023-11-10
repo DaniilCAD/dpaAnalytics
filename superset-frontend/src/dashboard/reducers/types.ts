@@ -34,6 +34,8 @@ export type User = {
   roles: Record<string, any>;
   userId: number;
   username: string;
+  main_inn: string;
+  head_inn: string;
 };
 export interface DashboardInfo {
   id: number;

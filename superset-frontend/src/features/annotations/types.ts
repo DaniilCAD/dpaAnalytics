@@ -20,6 +20,8 @@ type user = {
   id: number;
   first_name: string;
   last_name: string;
+  main_inn: string;
+  head_inn: string;
 };
 
 export type AnnotationObject = {

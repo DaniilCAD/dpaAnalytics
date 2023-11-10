@@ -52,6 +52,7 @@ from werkzeug.exceptions import HTTPException
 from wtforms import Form
 from wtforms.fields.core import Field, UnboundField
 
+from docker.pythonpath_dev.keycloak_auth_setting import CustomUser
 from superset import (
     app as superset_app,
     appbuilder,
@@ -427,7 +428,7 @@ def cached_common_bootstrap_data(user: User, locale: str) -> dict[str, Any]:
     return bootstrap_data
 
 
-def common_bootstrap_payload(user: User) -> dict[str, Any]:
+def common_bootstrap_payload(user: CustomUser) -> dict[str, Any]:
     return {
         **cached_common_bootstrap_data(user, get_locale()),
         "flash_messages": get_flashed_messages(with_categories=True),
