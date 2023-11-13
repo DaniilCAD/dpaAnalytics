@@ -11,8 +11,16 @@ from flask_appbuilder.security.sqla.models import User
 from urllib.parse import quote
 import logging
 from sqlalchemy.exc import SQLAlchemyError
-
+from flask_login import current_user
 logger = logging.getLogger()
+
+
+def get_current_user_main_inn():
+    return current_user.main_inn
+
+
+def get_current_user_head_inn():
+    return current_user.head_inn
 
 
 # Custom User class

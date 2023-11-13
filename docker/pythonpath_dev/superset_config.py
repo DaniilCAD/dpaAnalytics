@@ -24,10 +24,10 @@ import logging
 import os
 
 from celery.schedules import crontab
-from flask_caching.backends.filesystemcache import FileSystemCache
 from flask_appbuilder.security.manager import AUTH_OID
+from flask_caching.backends.filesystemcache import FileSystemCache
+from keycloak_auth_setting import get_current_user_main_inn, get_current_user_head_inn
 from keycloak_auth_setting import OIDCSecurityManager
-import json
 
 logger = logging.getLogger()
 
@@ -109,7 +109,7 @@ OIDC_TOKEN_TYPE_HINT = 'access_token'
 # ----------------------------------------------------------------------------
 CELERY_CONFIG = CeleryConfig
 APP_ICON = "/static/assets/images/custom_logo.png"
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
+FEATURE_FLAGS = {"ALERT_REPORTS": True, "ENABLE_TEMPLATE_PROCESSING": True}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = "http://localhost:8088/"
 # The base URL for the email report hyperlinks.
@@ -123,6 +123,12 @@ LANGUAGES = {
     'ru': {'flag': 'ru', 'name': 'Русский'},
     'en': {'flag': 'us', 'name': 'English'},
 }
+
+JINJA_CONTEXT_ADDONS = {
+    "get_current_user_main_inn": get_current_user_main_inn,
+    "get_current_user_head_inn": get_current_user_head_inn,
+}
+ENABLE_TEMPLATE_PROCESSING = True
 #
 # Optionally import superset_config_docker.py (which will have been included on
 # the PYTHONPATH) in order to allow for local settings to be overridden
