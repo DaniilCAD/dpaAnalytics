@@ -125,7 +125,7 @@ class AuthOIDCView(AuthOIDView):
         logout_user()
         oidc = self.appbuilder.sm.oid
         oidc.logout()
-        redirect_url = 'http://http://158.160.81.201:8000/'
+        redirect_url = 'http://158.160.81.201:8000/'
         issuer = oidc.client_secrets.get('issuer')
         if issuer:
             return redirect(redirect_url)
