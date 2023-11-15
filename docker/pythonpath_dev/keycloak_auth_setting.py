@@ -85,6 +85,17 @@ class AuthOIDCView(AuthOIDView):
                     'roles', 'inn', 'headINNName'
                 ])
                 user = sm.find_user(info.get('email'))
+                superset_roles = sm.get_all_roles()
+                user_roles = [role for role in superset_roles if
+                              role.name in info.get('roles', [])]
+
+                # If no roles are found, assign a default role
+                if not user_roles:
+                    default_role = sm.find_role(sm.auth_user_registration_role)
+                    user_roles = [default_role] if default_role else []
+                if user.roles != user_roles:
+                    user.roles = user_roles
+                    sm.update_user(user)
                 if user is None:
                     # Query roles from Superset and filter based on OIDC roles
                     superset_roles = sm.get_all_roles()
