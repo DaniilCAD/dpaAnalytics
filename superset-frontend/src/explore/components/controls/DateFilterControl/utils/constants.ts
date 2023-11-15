@@ -34,7 +34,6 @@ export const FRAME_OPTIONS: SelectOptionType[] = [
   { value: 'Advanced', label: t('Advanced') },
   { value: 'No filter', label: t('No filter') },
 ];
-
 export const COMMON_RANGE_OPTIONS: SelectOptionType[] = [
   { value: 'Last day', label: t('last day') },
   { value: 'Last week', label: t('last week') },

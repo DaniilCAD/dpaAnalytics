@@ -12,6 +12,7 @@ from urllib.parse import quote
 import logging
 from sqlalchemy.exc import SQLAlchemyError
 from flask_login import current_user
+
 logger = logging.getLogger()
 
 
@@ -124,10 +125,11 @@ class AuthOIDCView(AuthOIDView):
         logout_user()
         oidc = self.appbuilder.sm.oid
         oidc.logout()
-        redirect_url = request.url_root.strip('/')
+        redirect_url = 'http://http://158.160.81.201:8000/'
         issuer = oidc.client_secrets.get('issuer')
         if issuer:
-            return redirect(
-                f"{issuer}/protocol/openid-connect/logout?redirect_uri={quote(redirect_url)}")
+            return redirect(redirect_url)
+            # f"{issuer}/protocol/openid-connect/logout?redirect_uri={quote(
+            # redirect_url)}")
         flash('Failed to log out', 'warning')
         return redirect('/')

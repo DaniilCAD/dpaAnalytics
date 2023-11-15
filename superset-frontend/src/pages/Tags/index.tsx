@@ -160,7 +160,7 @@ function TagList(props: TagListProps) {
           row: {
             original: { changed_on_delta_humanized: changedOn },
           },
-        }: any) => <span className="no-wrap">{changedOn}</span>,
+        }: any) => <span className="no-wrap">{t(changedOn)}</span>,
         Header: t('Modified'),
         accessor: 'changed_on_delta_humanized',
         size: 'xl',
