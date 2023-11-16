@@ -1,14 +1,12 @@
-from flask import redirect, request, flash
+from flask import redirect, flash
 from flask_appbuilder import expose
 from flask_appbuilder.security.manager import AUTH_OID
-from sqlalchemy import Column, String, Integer
-from werkzeug.security import generate_password_hash
+from sqlalchemy import Column, String
 from superset.security import SupersetSecurityManager
 from flask_oidc import OpenIDConnect
 from flask_appbuilder.security.views import AuthOIDView
 from flask_login import login_user, logout_user
 from flask_appbuilder.security.sqla.models import User
-from urllib.parse import quote
 import logging
 from sqlalchemy.exc import SQLAlchemyError
 from flask_login import current_user
@@ -82,41 +80,19 @@ class AuthOIDCView(AuthOIDView):
         sm = self.appbuilder.sm
         oidc = sm.oid
 
-        @self.appbuilder.sm.oid.require_login
+        @sm.oid.require_login
         def handle_login():
             try:
                 info = oidc.user_getinfo([
                     'preferred_username', 'given_name', 'family_name', 'email',
                     'roles', 'inn', 'headINNName'
                 ])
-                user = sm.find_user(info.get('email'))
-                if user is None:
-                    # Query roles from Superset and filter based on OIDC roles
-                    superset_roles = sm.get_all_roles()
-                    user_roles = [role for role in superset_roles if
-                                  role.name in info.get('roles', [])]
-
-                    # If no roles are found, assign a default role
-                    if not user_roles:
-                        default_role = sm.find_role(sm.auth_user_registration_role)
-                        user_roles = [default_role] if default_role else []
-
-                    # Create the user with the roles
-                    user = sm.add_user(
-                        username=info.get('preferred_username'),
-                        first_name=info.get('given_name'),
-                        last_name=info.get('family_name'),
-                        email=info.get('email'),
-                        role=user_roles,
-                        main_inn=info.get('inn'),
-                        head_inn=info.get('headINNName')
-                    )
-                # Check if the user exists and is active
+                user = self.create_or_update_user(info, sm)
                 if user and user.is_active:
                     login_user(user, remember=False)
                     return redirect(self.appbuilder.get_url_for_index)
                 else:
-                    logger.error(f'Your acaunt is not activate ')
+                    logger.error('Your account is not active')
                     return redirect('/login/')
             except Exception as e:
                 logger.error(f'OIDC login failed: {e}')
@@ -124,6 +100,29 @@ class AuthOIDCView(AuthOIDView):
                 return redirect('/login/')
 
         return handle_login()
+
+    def create_or_update_user(self, info, sm):
+        # Query roles from Superset and filter based on OIDC roles
+        superset_roles = sm.get_all_roles()
+        user_roles = [role for role in superset_roles if
+                      role.name in info.get('roles', [])]
+
+        # If no roles are found, assign a default role
+        if not user_roles:
+            default_role = sm.find_role(sm.auth_user_registration_role)
+            user_roles = [default_role] if default_role else []
+
+        # Create or update the user with the roles
+        user = sm.add_user(
+            username=info.get('preferred_username'),
+            first_name=info.get('given_name'),
+            last_name=info.get('family_name'),
+            email=info.get('email').lower(),  # Normalize email
+            role=user_roles,
+            main_inn=info.get('inn'),
+            head_inn=info.get('headINNName')
+        )
+        return user
 
     @expose('/logout/', methods=['GET', 'POST'])
     def logout(self):
