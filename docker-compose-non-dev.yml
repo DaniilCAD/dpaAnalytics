@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-x-superset-image: &superset-image apache/dpa-analytics:1.0.1
+x-superset-image: &superset-image cad/data-platform-analytics:3.0.2
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
