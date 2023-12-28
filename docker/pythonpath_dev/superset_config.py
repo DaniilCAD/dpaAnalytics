@@ -1,33 +1,11 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
-#
-# This file is included in the final Docker image and SHOULD be overridden when
-# deploying the image to prod. Settings configured here are intended for use in local
-# development environments. Also note that superset_config_docker.py is imported
-# as a final step as a means to override "defaults" configured here
-#
 import logging
 import os
 
 from celery.schedules import crontab
 from flask_appbuilder.security.manager import AUTH_OID
 from flask_caching.backends.filesystemcache import FileSystemCache
-from keycloak_auth_setting import get_current_user_main_inn, get_current_user_head_inn
-from keycloak_auth_setting import OIDCSecurityManager
+from utils import get_current_user_main_inn, get_current_user_head_inn
+from security import OIDCSecurityManager
 
 logger = logging.getLogger()
 
@@ -96,7 +74,7 @@ class CeleryConfig:
 # ////////////////////////-------KEYCLOAK----\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 curr = os.path.abspath(os.getcwd())
 AUTH_TYPE = AUTH_OID
-OIDC_CLIENT_SECRETS = curr + '/docker/pythonpath_dev/client_secret.json'
+OIDC_CLIENT_SECRETS = curr + '/docker/pythonpath_dev/client_secret-local.json'
 OIDC_ID_TOKEN_COOKIE_SECURE = False
 OIDC_REQUIRE_VERIFIED_EMAIL = False
 OIDC_OPENID_REALM = 'main'
@@ -107,6 +85,8 @@ CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
 OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
 OIDC_TOKEN_TYPE_HINT = 'access_token'
 # ----------------------------------------------------------------------------
+
+
 CELERY_CONFIG = CeleryConfig
 APP_ICON = "/static/assets/images/custom_logo.png"
 FEATURE_FLAGS = {"ALERT_REPORTS": True, "ENABLE_TEMPLATE_PROCESSING": True}
@@ -129,13 +109,10 @@ JINJA_CONTEXT_ADDONS = {
     "get_current_user_head_inn": get_current_user_head_inn,
 }
 ENABLE_TEMPLATE_PROCESSING = True
-#
-# Optionally import superset_config_docker.py (which will have been included on
-# the PYTHONPATH) in order to allow for local settings to be overridden
-#
+
 try:
     import superset_config_docker
-    from superset_config_docker import *  # noqa
+    from superset_config_docker import *
 
     logger.info(
         f"Loaded your Docker configuration at " f"[{superset_config_docker.__file__}]"

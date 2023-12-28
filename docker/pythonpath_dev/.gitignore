@@ -19,8 +19,7 @@
 *
 # DON'T ignore the .gitignore
 !.gitignore
-!superset_config.py
+!*.py
 !superset_config_local.example
-!keycloak_auth_setting.py
 !client_secret.json
 !requirements-local.txt

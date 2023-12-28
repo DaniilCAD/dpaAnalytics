@@ -45,7 +45,6 @@ const bootstrapData = getBootstrapData();
 if (typeof window !== 'undefined') {
   configure({ languagePack: bootstrapData.common.language_pack });
   moment.locale(bootstrapData.common.locale);
-  moment.locale('ru');
 } else {
   configure();
 }

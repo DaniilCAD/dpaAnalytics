@@ -32,7 +32,6 @@ from sqlalchemy.orm.exc import NoResultFound
 from werkzeug.wrappers.response import Response
 
 import superset.models.core as models
-from docker.pythonpath_dev.keycloak_auth_setting import CustomUser
 from superset import app, dataframe, db, result_set, viz
 from superset.common.db_query_status import QueryStatus
 from superset.daos.datasource import DatasourceDAO
@@ -71,7 +70,7 @@ def sanitize_datasource_data(datasource_data: dict[str, Any]) -> dict[str, Any]:
     return datasource_data
 
 
-def bootstrap_user_data(user: CustomUser, include_perms: bool = False) -> dict[str, Any]:
+def bootstrap_user_data(user: User, include_perms: bool = False) -> dict[str, Any]:
     if user.is_anonymous:
         payload = {}
         user.roles = (security_manager.find_role("Public"),)
@@ -106,7 +105,7 @@ def bootstrap_user_data(user: CustomUser, include_perms: bool = False) -> dict[s
 
 
 def get_permissions(
-    user: CustomUser,
+    user: User,
 ) -> tuple[dict[str, list[tuple[str]]], DefaultDict[str, list[str]]]:
     if not user.roles:
         raise AttributeError("User object does not have roles")
