@@ -19,7 +19,6 @@
 *
 # DON'T ignore the .gitignore
 !.gitignore
-!*.py
 !superset_config_local.example
 !client_secret.json
 !requirements-local.txt

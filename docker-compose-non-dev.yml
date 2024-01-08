@@ -1,4 +1,4 @@
-x-superset-image: &superset-image docker.io/cad/dpa-analytics:v1.0
+x-superset-image: &superset-image docker.io/cad/dpa-analytics:2.0
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
